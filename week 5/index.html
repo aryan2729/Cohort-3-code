@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"> </script>  <!-- this is adding external library ( axios ) in html in js we do = requre etc -->
+    
+
+</head>
+<body>
+    Hello world 
+            <div id = "posts"></div>    <!-- we defined empty div so we can add data from fetching api -->
+    <script>
+
+        async function getRecentPosts() {
+            const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");       // Using axios external library for fetch api data
+            document.getElementById("posts").innerHTML = response.data.title;                       // using dom to fill empty div of body with data.title (fetching api code)
+        }
+
+        getRecentPosts();
+
+    </script>
+</body>
+</html>
