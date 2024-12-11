@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    
+    <div id="topDiv">
+        hi there 
+    </div>
+
+</body>
+
+<script>
+    // 3.  Adding Elements 
+
+    
+    const divEl = document.createElement("div");   // .createElement creates elements what u wanna add like div , h1 etc
+    divEl.innerHTML = "hi there it's new div created under body ";   // now adding upgrading element or writing in div
+    
+    const parentEl = document.querySelector('body');  // now select body in which this derived div go 
+    parentEl.appendChild(divEl);  
+
+</script>
+</html>

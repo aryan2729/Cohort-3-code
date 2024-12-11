@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<!--🚀2. (Removing element) -->
+
+<body>
+  <div>  <!--🔥 parent always need for remove any element -->
+    <div id="todo-1" style="display: flex;">     <!-- creating id -->
+        <h3>Click here </h3>
+        <button onclick="todo(1)">Click to submit</button>   <!--🔥  adding function todo(1) for onclick this function start automatically -->
+    </div>
+    <div id="todo-2" style="display: flex;">
+        <h3>Click here two  </h3>
+        <button onclick="todo(2)">Click to submit</button> 
+    </div>
+  </div>
+    <input type="text"></input>
+    <button>Add Todo</button>
+  </div>
+</body>
+
+<script>
+    function todo(index){    //🔥  adding function to remove any element by id and parentNode should present there. 
+        const element = document.getElementById("todo-"+index);
+        element.parentNode.removeChild(element);  // M/I/🔥 
+    }
+</script>
+
+</html>

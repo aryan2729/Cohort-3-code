@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width">
+	  <title>replit</title>
+
+	  <style>
+		.todo {
+				background-color: yellow;  
+		}
+	  </style>
+	</head>
+
+
+	
+	<body>
+	  <h1 id="todo1" class="todo">Todo list</h1>
+	  <h4 id="todo2" class="todo">1. Take class</h4>   
+	  <h4 id="todo3" class="todo">2. Go out to eat</h4>
+	  <h4 id="todo4" class="todo">2. Go out Gym</h4>
+	  <div>
+
+	    <input type="text" placeholder="Add your Todo here"></input>
+	    <button onclick="addTodo()">Add Todo</button>    <!-- whenever i click on button whatever written in input box it will run addTodo() fnc-->
+	  </div>
+	  <script>  // M.I.🔥
+
+		function addTodo() {
+		const inputEl = document.querySelector("input");   //🔥 this will find the first input tag in code 
+		console.log(inputEl.value);  //🔥 this will print what's written in input box 
+	    }
+		
+		const inputallH = document.querySelectorAll("h4"); //🔥 this will help to find all h4 tag in one place 
+		console.log(inputallH);
+
+		const printingids = document.querySelector("#todo1");
+		console.log(printingids);
+
+		// document.getElementById("todo2"); in console 
+		const printingallhbyclass = document.querySelectorAll(".todo");  //🔥 for  this will find all todo class name 
+		console.log(printingallhbyclass);
+
+		//🧬 how u will decide in quetySelectorAll that which h4 u want to edit or change it can be change by indexinggg..
+		
+		const el = document.querySelectorAll("h4")[0]; //🔥 this will find first h4 heading or 0 index h4 heading means
+		console.log(el);
+
+
+		
+
+	  </script>
+	</body>
+	
+</html>
