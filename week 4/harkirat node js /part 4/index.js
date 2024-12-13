@@ -15,7 +15,7 @@ function isOldEnoughMiddleware(req , res , next ){              // M.I.🔥 Midd
     }
 }
 
-app.use(isOldEnoughMiddleware);                                 // M.I.🔥 (don't forgot to write this before any app.get , app.post etc )  | 🔥 if u don't write this then middleware don't work 
+app.use(isOldEnoughMiddleware);                                 // M.I.🔥 (don't forgot to write this before any app.get , app.post etc )  | 🔥 if u don't write this then middleware don't work | this is global middleware used for all below routes 
                                                                 
 app.get("/ride2" , function ( req , res){
 
@@ -33,6 +33,6 @@ app.get("/ride1" , function ( req , res ){
         })
 }) 
 
-
+// do cohort 2 middlewares assignment in this part 4 week 3 middleware folder check it's good 
 
 app.listen(3000);
