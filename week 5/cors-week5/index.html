@@ -1,0 +1,29 @@
+<head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"> </script>  <!-- this is adding external library ( axios ) in html in js we do = requre etc -->
+
+    <script>
+
+        function sendRequest(){                               // like what we're doing that we've backend code in index.js and running on http server and here we make front end code which do when we click on find sum button then it check the backend which listed on different server so this conclusion is that we're doing this to understand (cors) 
+            const a = document.getElementById("a").value;
+            const b = document.getElementById("b").value;
+            axios.post ("http://localhost:3000/sum"),{                   // axios work like to gather or fetch data form backend server 
+                    a : a,          
+                    b : b
+            }
+        }
+        // servers all of your files or  folder over http 
+    </script>
+
+</head>
+
+<body>
+
+    <input id ="a" type="text" placeholder="First value"></input>
+    <input id="b" type="text" placeholder="Second value "></input>
+
+    <button onclick="sendRequest()">Find sum</button>
+
+
+
+</body>
