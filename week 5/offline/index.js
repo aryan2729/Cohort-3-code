@@ -1,0 +1,2 @@
+//🔥 Arrow function 🔥
+
