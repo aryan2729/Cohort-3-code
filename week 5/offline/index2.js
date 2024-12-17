@@ -15,7 +15,7 @@ main();
 
 //🔥 Axios - External first add  above 
 
-async function Main() {                         // axios easy 
+async function Main() {                         // axios Easy  
     
     const Response = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
 
