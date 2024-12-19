@@ -65,7 +65,7 @@ app.post("/signin", function(req,res){
 
 app.get("/me" , function(req ,res ){                                        //🚀 look - > when we signup in any site then it give user token and when u try to login site check is it same token so for site checking it same token we used .get here for that thing 
 
-    const token = req.headers.Authorization                 //🚀 In Headers add in key add authorization in value add token number 
+    const token = req.headers.token ;             //🚀 In Headers add in key add token in value add token number 
 
     const user = users.find(user => user.token == token)                    //Arrow fun |  checking if user.token is same as token then this user condition true and can be used
 
