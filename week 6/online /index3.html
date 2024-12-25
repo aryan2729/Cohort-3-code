@@ -1,0 +1,86 @@
+<html>
+                
+<head>
+    <title>Auth Website</title>
+</head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"> </script>                                             <!-- this is adding external library ( axios ) in html in js we do = requre etc -->
+
+    <script>        // For index3.js front-end
+
+
+        async function  signup() {
+                const username = document.getElementById("signup-username").value;
+                const password = document.getElementById("signup-password").value;
+
+                await axios.post("http://localhost:3000/signup",{                       //🚀 always use async for function and await for axios and here post request that's y .post 
+                    username : username , 
+                    password : password
+                });
+                alert("You are signed up ");
+
+        }
+
+        async function  signin() {
+                const username = document.getElementById("signin-username").value;
+                const password = document.getElementById("signin-password").value;
+
+                const response = await axios.post("http://localhost:3000/signin",{                       // Now we need to store the response from backend like token that's why we created response
+                    username : username , 
+                    password : password
+                });
+
+                localStorage.setItem("token", response.data.token );                                                        // .data always used after response and .token cuz we sent this from bakend and using axios 
+//                                                                                        // 1🚀 localstorage.setItem -> used to make token name item in which we are storing response.data.token which comes after u enterd signin 
+                alert("You are signed in");
+        }
+
+        async function  getuserInfo() {
+
+                const response =  await axios.get("http://localhost:3000/me",{                       // always use async for function and await for axios and here post request that's y .post 
+                    headers: {
+                            token : localStorage.getItem("token")                                  //2🚀 localStorage.getItem("token") -> get tokens from headers section which we doing by hands in index3.js                       
+                    }
+                });
+
+                document.getElementById("information").innerHTML = "Username: "+ response.data.username + "Password: " + response.data.password ;
+        }
+        getuserInfo();
+
+        async function logout() {
+                localStorage.removeItem("token");                                                   //3🚀 localStoarge.removeItem -> used for remove store item in this case it was token 
+
+                alert("You're logged out ");
+        }
+    </script>
+
+<body>
+
+    <div>
+        Signup
+        <input id="signup-username" type="text" name="username" placeholder="Username">
+        <input id="signup-password" type="password" name="password" placeholder="Password">
+        <button onclick="signup()">Submit</button>
+    </div>
+
+    <div>
+        Signin
+        <input id="signin-username"type="text" name="username" placeholder="Username">
+        <input id="signin-password"type="password" name="password" placeholder="Password">
+        <button onclick="signin()">Submit</button>
+    </div>
+
+    <div>
+        User information: 
+        <div id="information"></div>
+    </div>
+
+    <div>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+
+    
+
+</body>
+</html>
