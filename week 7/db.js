@@ -18,7 +18,7 @@ const Todo = new Schema({                   // Todo schema
 })
 
 
-const UserModel = mongoose.model('user', User);
+const UserModel = mongoose.model('user', User);          // where you wanna store data 
 const TodoModel = mongoose.model('todo', Todo);         // (sending here , from this )       // and sending here means in mongodb compass todo  
 
 
