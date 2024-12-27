@@ -9,7 +9,7 @@ const JWT_SECRET = "asfjkjdkjrji3";
 const { UserModel , TodoModel } = require("./db");          //🚀 importing 
 const  mongoose  = require("mongoose");                     // making varible of mongoose so we can use it for connect with atabse 
 
-mongoose.connect("/todo-harkirat-part2a"); //🔥🔥 M.I. need to connect with mongodb compass dataserver if you don't then it won't store user info or any data  | and also need to add after connect key /todo-harkirat where u want to store your data 
+mongoose.connect("mongodb+srv://aryancyber282h:xzpGeOPurEEFSXRi@cluster0.dx1c5.mongodb.net/todo-harkirat-part2a"); //🔥🔥 M.I. need to connect with mongodb compass dataserver if you don't then it won't store user info or any data  | and also need to add after connect key /todo-harkirat where u want to store your data 
 
 const app = express();
 app.use(express.json());                                    // async used for function and await for mongoDb anything wanna do and for bcrypt anything wanna do
