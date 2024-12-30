@@ -10,7 +10,7 @@ const userSchema = new Schema ({
     email : {type : String  , unique : true } ,
     password : String , 
     firstName : String , 
-    LastName : String 
+    lastName : String 
     
 })
 
@@ -44,9 +44,9 @@ const purchaseModel = mongoose.model("purchase", purchasesSchema);
 
 
 
-module.exports = {                                  //🍁🍁 Exporting 
-    userModel : userModel,
-    adminModel : adminModel , 
-    courseModel : courseModel , 
-    purchaseModel : purchaseModel
+module.exports={                                  //🍁🍁 Exporting 
+    userModel ,
+    adminModel , 
+    courseModel  , 
+    purchaseModel
 }
