@@ -14,7 +14,7 @@ function App() {
                     {/* Call PostComponent here with props to render it in the App component */}
                     <PostComponent
                         name={"Harkirat"}
-                        followerCount={20}
+                        followerCount={"20 followers"}
                         time={"20m ago"}
                         image={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP69xOgmObGqEMFMXmvfOa6-E6sA6g7kouJA&s"}
                         description={"What to know how to win big? Check out how these folks won $6000 in bounties."}
@@ -23,7 +23,7 @@ function App() {
                     {/* Call PostComponent here with props to render it in the App component */}
                     <PostComponent
                         name={"Aryan"}
-                        followerCount={201}
+                        followerCount={"201 followers"}
                         time={"10m ago"}
                         image={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsZsv-I7uvFqtdHz-TGoWCRr4RK0WYdbPNuw&s"}
                         description={"How to get hired in 2024? I lost my Job in 2023, this is the roadmap."}
@@ -32,7 +32,7 @@ function App() {
                     {/* Call PostComponent here with props to render it in the App component */}
                     <PostComponent
                         name={"Gomo"}
-                        followerCount={10}
+                        followerCount={"10 followers"}
                         time={"2m ago"}
                         image={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnsw0qtamaBB3fpWwJ3NPrVr_tB3f7mXcogQ&s"}
                         description={"I just don't know how to get a job but still i work everyday and say to myself that's not over until i win ."}/>
