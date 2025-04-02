@@ -1,5 +1,7 @@
 import { useState , useEffect } from "react";
 
+// useEffect use for clock , fetch data , api calls etc
+
 
 function App(){
 
