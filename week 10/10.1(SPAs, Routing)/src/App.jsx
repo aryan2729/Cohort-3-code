@@ -13,7 +13,7 @@ function App(){
 
     <BrowserRouter>                 {/* Wrap the routing inside BrowserRouter, which manages the routing history */}
 
-    <Link to="/" >Allen</Link>      {/* Create navigation links using Link component to switch between pages without refreshing */}
+    <Link to="/" >Allen</Link>      {/* Create navigation links using Link component to switch between pages without refreshing page */}
     <Link to="/neet/online-coaching-class-11" >Class 11</Link>
     <Link to="/neet/online-coaching-class-12">Class 12</Link>
 
