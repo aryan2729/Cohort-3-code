@@ -34,9 +34,11 @@ function LightBulb(){
   // Use the useContext hook to access the value of bulbOn from the BulbContext
   const {BulbOn} = useContext(BulbContext);    
 
+  //used gif for make it real 
   return <div>
+    
 
-    {BulbOn ? "Bulb On " : "Bulb Off"}
+    {BulbOn ? <img src="https://www.w3schools.com/js/pic_bulbon.gif"></img> :<img src='https://www.w3schools.com/js/pic_bulboff.gif'></img>}
 
   </div>
 }
