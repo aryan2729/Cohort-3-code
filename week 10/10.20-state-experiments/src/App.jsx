@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// also called rolling up 
 function App(){
 
     return <div>
