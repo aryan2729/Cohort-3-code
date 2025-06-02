@@ -6,6 +6,7 @@ import './App.css'
 import { RecoilRoot , useRecoilValue , useSetRecoilState } from 'recoil'
 import { CounterAtom } from "./store/atoms/counter";      
 // Import above  things first for use Recoil
+// and keep in mind Recoil only work on React 18 change the dependecies in package.json file and delete and re install the npm modules 
 
 
 
