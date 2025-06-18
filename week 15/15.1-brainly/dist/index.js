@@ -18,7 +18,6 @@ const express_1 = __importDefault(require("express"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const zod_1 = __importDefault(require("zod"));
 const db_1 = require("./db");
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("./config");
 const middleware_1 = require("./middleware");
 const app = (0, express_1.default)();
@@ -41,7 +40,6 @@ app.post("/api/v1/signup", function (req, res) {
         const username = req.body.username;
         const password = req.body.password;
         try {
-            const hashedPassword = yield bcrypt_1.default.hash(password, 4); // hashing password 
             yield db_1.UserModel.create({
                 username: username,
                 password: password
@@ -103,15 +101,24 @@ app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(
     const userId = req.userId;
     const content = yield db_1.ContentModel.find({
         userId: userId
-    }).populate("userId", "username");
+    }).populate("userId", "username"); // here .populate take userId of that person who created and after that select thing means whom made this content username will show | like if want to know whom created this content if we shared our content 
     res.json({
         content
     });
 }));
-app.delete("/api/v1/content", (req, res) => {
-});
-app.post("api/v1/brain/share", (req, res) => {
-});
+app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const contentId = req.body.contentId;
+    yield db_1.ContentModel.deleteMany({
+        contentId,
+        //@ts-ignore
+        userId: req.userId
+    });
+    res.json({
+        message: "Content deleted"
+    });
+}));
+app.post("api/v1/brain/share", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+}));
 app.get("api/v1/brain/:sharelink", (req, res) => {
 });
 app.listen(3000);
