@@ -5,6 +5,9 @@
 import type { ReactElement } from "react";
 
 
+
+
+
 interface ButtonProps {                // Interface & types week 14
     variant : "primary" | "secondary";
     size : "md" | "sm" | "lg";
@@ -22,7 +25,7 @@ const variantStyles ={                          // here we defined style if vari
     
 }
 
-const defualtStyles= "rounded-md flex "
+const defualtStyles= "rounded-xl flex "
 
 const sizeStyles = {
     "sm" : "px-3 py-2",
@@ -36,10 +39,13 @@ export const Button = ( props : ButtonProps) => {       // props type is ButtonP
 
     return <button className =  { `${variantStyles[props.variant]}  ${defualtStyles}  ${sizeStyles[props.size]} `  } > 
 
-    {props.startIcon ? <div className="pr-2 ">{props.startIcon}</div> : null} {props.text} {props.endIcon}
-    
+    {props.startIcon ? <div className="pr-2 pt-1"> { props.startIcon} </div> : null}                     
+    {props.text}
+    {props.endIcon ? <div className="pl-2 pt-1"> { props.endIcon} </div> : null }            
+
     </button>   // these prop we take from user in app.tsx files typescript 
 }
+
 
 // you have used  ` -> come from 1 number left button 
 
