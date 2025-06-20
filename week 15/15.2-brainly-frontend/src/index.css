@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+
+@theme {      /* here we defined our own color after --color- term  */
+  
+  --color-purple-dark: #5046e2;         /* its a way of define our own */
+  --color-purple-light: #e1e7ff;
+  --color-purple-mid: #6963c5;      
+
+
+
+}
