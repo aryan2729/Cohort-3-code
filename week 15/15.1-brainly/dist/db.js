@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContentModel = exports.UserModel = void 0;
+exports.LinkModel = exports.ContentModel = exports.UserModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const config_1 = require("./config");
 mongoose_1.default.connect(config_1.MONGO_URL);
@@ -49,3 +49,8 @@ const ContentSchema = new mongoose_1.Schema({
     userId: { type: mongoose_1.default.Types.ObjectId, ref: "User", required: true } // refer User and it must required 
 });
 exports.ContentModel = (0, mongoose_1.model)("Content", ContentSchema);
+const LinkSchema = new mongoose_1.Schema({
+    hash: String,
+    userId: { type: mongoose_1.default.Types.ObjectId, ref: "User", required: true, unique: true } // should be unique 
+});
+exports.LinkModel = (0, mongoose_1.model)("Links", LinkSchema);

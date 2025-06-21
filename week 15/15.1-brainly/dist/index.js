@@ -20,6 +20,7 @@ const zod_1 = __importDefault(require("zod"));
 const db_1 = require("./db");
 const config_1 = require("./config");
 const middleware_1 = require("./middleware");
+const utils_1 = require("./utils");
 const app = (0, express_1.default)();
 app.use(express_1.default.json()); // always add | Middleware to parse JSON request bodies.
 // use async await in every mongodb thing or while you use it
@@ -117,8 +118,69 @@ app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __await
         message: "Content deleted"
     });
 }));
-app.post("api/v1/brain/share", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/api/v1/brain/share", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const share = req.body.share;
+    if (share) {
+        //first check if already link existed then don't need to create new one 
+        const exsistingLink = yield db_1.LinkModel.findOne({
+            //@ts-ignore
+            userId: req.userId
+        });
+        if (exsistingLink) {
+            res.json({
+                hash: exsistingLink.hash
+            });
+            return;
+        }
+        //otherwise create new link
+        const hash = (0, utils_1.random)(8);
+        console.log("Generated hash:", hash); // Add this line
+        yield db_1.LinkModel.create({
+            //@ts-ignore                        
+            userId: req.userId, // added ts ignore cuz we're taking userId from userMIddleware 
+            hash: hash
+        });
+        res.json({
+            hash: hash
+        });
+    }
+    else {
+        yield db_1.LinkModel.deleteOne({
+            //@ts-ignore
+            userId: req.userId,
+        });
+        res.json({
+            message: "Removed Link"
+        });
+    }
 }));
-app.get("api/v1/brain/:sharelink", (req, res) => {
-});
+app.get("/api/v1/brain/:sharelink", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const hash = req.params.sharelink;
+    const link = yield db_1.LinkModel.findOne({
+        hash: hash,
+    });
+    if (!link) {
+        res.status(411).json({
+            message: "Sorry incorrect input"
+        });
+        return; // exit 
+    }
+    //userId
+    const content = yield db_1.ContentModel.find({
+        userId: link.userId,
+    });
+    const user = yield db_1.UserModel.findOne({
+        _id: link.userId // always in first user that yo defined you can acess that id by only _id cuz it's in mongo | why not userId cuz in other schemas we're using userId from middleware or other schemas but this one is like parent so _id  
+    });
+    if (!user) {
+        res.status(411).json({
+            message: "User not found , error should ideally not happen"
+        });
+        return;
+    }
+    res.json({
+        username: user.username,
+        content: content
+    });
+}));
 app.listen(3000);

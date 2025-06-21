@@ -3,10 +3,10 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import z, { string } from "zod";
-import { ContentModel, UserModel } from "./db";
-import { error } from "console";
+import { ContentModel, LinkModel, UserModel } from "./db";
 import {JWT_SECRET } from "./config";
 import { userMiddleware } from "./middleware";
+import { random } from "./utils";
 
 
 const app = express();
@@ -142,15 +142,87 @@ app.delete("/api/v1/content", userMiddleware ,async (req, res)=>{
 
 })
 
-app.post("api/v1/brain/share" , async (req , res) =>{
+app.post("/api/v1/brain/share", userMiddleware , async (req , res) => {       // for doing share thing userMiddlewre check pass etc 
+
+    const share = req.body.share;
 
     
+    if(share){
+        //first check if already link existed then don't need to create new one 
+        const exsistingLink = await LinkModel.findOne({
+            //@ts-ignore
+            userId : req.userId
+        });
+        
+        if(exsistingLink){
 
+            res.json({
+                hash : exsistingLink.hash
+            })
+            return ;
+        }
+        
+        //otherwise create new link
+        const hash = random(8);
+        console.log("Generated hash:", hash); // Add this line
+        await LinkModel.create({
+            //@ts-ignore                        
+            userId : req.userId,                     // added ts ignore cuz we're taking userId from userMIddleware 
+            hash: hash 
+        })
+
+        res.json({
+            hash : hash
+        })
+
+    }else{
+        await LinkModel.deleteOne({
+            //@ts-ignore
+            userId: req.userId,
+        })
+        res.json({
+            message : "Removed Link"
+        })
+    }
     
 
 })
 
-app.get("api/v1/brain/:sharelink",(req , res) =>{
+app.get("/api/v1/brain/:sharelink",async (req , res) =>{     // no need to pass userMiddlware means anyone can acess this with sharelink 
+
+    const hash = req.params.sharelink;
+
+    const link = await LinkModel.findOne({
+        hash : hash, 
+    })
+
+    if(!link){
+        res.status(411).json({
+            message : "Sorry incorrect input"
+        })
+        return ;            // exit 
+    }
+
+    //userId
+    const content = await ContentModel.find({
+        userId : link.userId,
+    })
+
+    const user = await UserModel.findOne({
+        _id : link.userId               // always in first user that yo defined you can acess that id by only _id cuz it's in mongo | why not userId cuz in other schemas we're using userId from middleware or other schemas but this one is like parent so _id  
+    })
+
+    if(!user){
+        res.status(411).json({
+            message : "User not found , error should ideally not happen"
+        })
+        return;
+    }
+
+    res.json({                             //  return 
+        username : user.username,   
+        content : content 
+    })
 
 })
 
