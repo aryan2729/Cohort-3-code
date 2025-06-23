@@ -21,8 +21,10 @@ const db_1 = require("./db");
 const config_1 = require("./config");
 const middleware_1 = require("./middleware");
 const utils_1 = require("./utils");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json()); // always add | Middleware to parse JSON request bodies.
+app.use((0, cors_1.default)());
 // use async await in every mongodb thing or while you use it
 app.post("/api/v1/signup", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -38,8 +40,7 @@ app.post("/api/v1/signup", function (req, res) {
             });
             return; // return exit 
         }
-        const username = req.body.username;
-        const password = req.body.password;
+        const { username, password } = parsedDataWithSuccess.data;
         try {
             yield db_1.UserModel.create({
                 username: username,

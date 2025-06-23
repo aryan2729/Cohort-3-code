@@ -7,13 +7,13 @@ import { ContentModel, LinkModel, UserModel } from "./db";
 import {JWT_SECRET } from "./config";
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
+import cors from "cors";
 
 
 const app = express();
 
 app.use(express.json());        // always add | Middleware to parse JSON request bodies.
-
-
+app.use(cors());
 
 // use async await in every mongodb thing or while you use it
 app.post("/api/v1/signup", async function(req , res ){                // arrow function used | or function(req,res){code }
