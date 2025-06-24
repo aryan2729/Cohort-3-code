@@ -6,23 +6,27 @@
 import type { ReactElement } from "react";
 
 interface Buttonprop {
-    variant : "primary"| "secondary";
+    variant : "primary"| "secondary" | "third";
     text : string ;
-    startIcon : ReactElement;
+    startIcon ? : ReactElement;
+    onClick ? : () => void ;        // means return void and not mandatory to pass onClick thing  
+    fullWidth ? : boolean;
+    loading ? : boolean;
 }
 
 const variantStyles = {
     primary : "bg-purpleLow text-purpleMid",
-    secondary : "bg-purpleHigh text-white"
+    secondary : "bg-purpleHigh text-white",
+    third : "bg-slate-700 text-white "
 }
 
 // (justify-center)-> for horizontal center align & (item-center)-> for vertically center align
-const defaultStyle = "px-4 py-2 rounded-md font-light flex item-center"
+const defaultStyle = "px-4 py-2 rounded-md font-light flex item-center cursor-pointer"
 
 
 export function Button( props : Buttonprop){
 
-    return <button className= {` ${variantStyles[props.variant]}  ${defaultStyle} `}>
+    return <button onClick={props.onClick} className= {` ${variantStyles[props.variant]}  ${defaultStyle} ${props.fullWidth ? "w-full flex justify-center items-center " : ""} ${props.loading ? "opacity-45" : ""}  `} disabled={props.loading} >
 
         <div className="pr-2 pt-0.5">
             {props.startIcon}
