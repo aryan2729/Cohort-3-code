@@ -40,7 +40,8 @@ app.post("/api/v1/signup", function (req, res) {
             });
             return; // return exit 
         }
-        const { username, password } = parsedDataWithSuccess.data;
+        const username = req.body.username;
+        const password = req.body.password;
         try {
             yield db_1.UserModel.create({
                 username: username,
@@ -87,8 +88,8 @@ app.post("/api/v1/content", middleware_1.userMiddleware, function (req, res) {
         const type = req.body.type;
         yield db_1.ContentModel.create({
             title,
-            link,
             type,
+            link,
             //@ts-ignore
             userId: req.userId,
             tags: []

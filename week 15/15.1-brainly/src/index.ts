@@ -95,8 +95,8 @@ app.post("/api/v1/content" , userMiddleware , async function(req , res){
 
     await ContentModel.create({
         title,
-        link , 
         type ,
+        link , 
         //@ts-ignore
         userId : req.userId,
         tags: []
