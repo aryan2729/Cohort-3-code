@@ -44,6 +44,7 @@ const UserSchema = new mongoose_1.Schema({
 exports.UserModel = (0, mongoose_1.model)("User", UserSchema); // should export models 
 const ContentSchema = new mongoose_1.Schema({
     title: { type: String },
+    text: String,
     link: { type: String },
     type: { type: String },
     tags: [{ type: mongoose_1.default.Types.ObjectId, ref: "Tag" }], // refer tag | and tags array of tags 

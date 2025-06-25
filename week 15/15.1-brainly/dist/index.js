@@ -85,10 +85,12 @@ app.post("/api/v1/content", middleware_1.userMiddleware, function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const title = req.body.title;
         const link = req.body.link;
+        const text = req.body.text;
         const type = req.body.type;
         yield db_1.ContentModel.create({
             title,
             type,
+            text,
             link,
             //@ts-ignore
             userId: req.userId,
@@ -112,7 +114,7 @@ app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(
 app.delete("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const contentId = req.body.contentId;
     yield db_1.ContentModel.deleteMany({
-        contentId,
+        _id: contentId,
         //@ts-ignore
         userId: req.userId
     });

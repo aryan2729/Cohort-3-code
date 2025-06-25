@@ -91,11 +91,13 @@ app.post("/api/v1/content" , userMiddleware , async function(req , res){
 
     const title = req.body.title;
     const link = req.body.link;
+    const text = req.body.text;
     const type = req.body.type;
 
     await ContentModel.create({
         title,
         type ,
+        text,
         link , 
         //@ts-ignore
         userId : req.userId,
@@ -130,7 +132,7 @@ app.delete("/api/v1/content", userMiddleware ,async (req, res)=>{
     const contentId = req.body.contentId;
 
     await ContentModel.deleteMany({              // Delete content based on contentId and userId.
-        contentId,
+        _id : contentId,
         //@ts-ignore
         userId : req.userId
     })
