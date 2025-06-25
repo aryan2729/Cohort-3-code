@@ -1,60 +1,127 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
 import { CreateContentModal } from '../components/CreateContentModal'
 import { PlusIcon } from '../icons/PlusIcon'
 import { ShareIcon } from '../icons/shareIcon'
 import { Sidebar } from '../components/Sidebar'
-import { useContent } from '../hooks/useContent'
 import axios from 'axios'
 import { BACKEND_URL, SITE_URL } from '../config'
+import { useCards } from '../hooks/useCards'
 
 export function Dashboard() {
-
   const [modalOpen , setModalOpan] = useState(false);
-  const contents = useContent();
+  const token = localStorage.getItem("token");
+  const { cards, loading, error, deleteCard } = useCards(token);
+  const [search, setSearch] = useState("");
+  
+  const [typeFilter , setTypeFilter] = useState<string | null>(null);  
+  const filteredCards = cards.filter(card => {
+    const matchesType = !typeFilter || card.type === typeFilter;
+    const matchesSearch = card.title.toLowerCase().includes(search.toLowerCase());
+    return matchesType && matchesSearch;
+  });
+
+  // Share state
+  const [shareLink, setShareLink] = useState<string | null>(null);
+  const [shareLoading, setShareLoading] = useState(false);
+
+
+  // On mount, check if sharing is on
+  useEffect(() => {
+    async function fetchShareStatus() {
+      try {
+        // Use GET to check if a share link exists (do not create)
+        const response = await axios.get(`${BACKEND_URL}/api/v1/brain/share`, {
+          headers: { 'Authorization': localStorage.getItem('token') }
+        });
+        if (response.data.hash) {
+          setShareLink(`${SITE_URL}/share/${response.data.hash}`);
+        } else {
+          setShareLink(null);
+        }
+      } catch {
+        setShareLink(null);
+      }
+    }
+    fetchShareStatus();
+  }, []);
+
+
+  // Turn sharing on
+  async function handleShareOn() {
+    setShareLoading(true);
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`, { share: true }, {
+        headers: { 'Authorization': localStorage.getItem('token') }
+      });
+      setShareLink(`${SITE_URL}/share/${response.data.hash}`);
+    } finally {
+      setShareLoading(false);
+    }
+  }
+
+  // Turn sharing off
+  async function handleShareOff() {
+    setShareLoading(true);
+    try {
+      await axios.post(`${BACKEND_URL}/api/v1/brain/share`, { share: false }, {
+        headers: { 'Authorization': localStorage.getItem('token') }
+      });
+      setShareLink(null);
+    } finally {
+      setShareLoading(false);
+    }
+  }
+  
+
+  
+
 
   return <div>
 
-      
-      <Sidebar />
-
-      <div className=' bg-grayScreen min-h-screen  p-4  ml-72 border-2 '>    {/* margin-left-72 means the content start from m-l-72 so the content not go under the side bar cuz side bar w-72  */}
-        <CreateContentModal open={modalOpen} onClose={()=>{    
-          setModalOpan(false);
-        }} />
-
-        <div className=" flex justify-end gap-4">
-          
-          <Button onClick={() => {
-            setModalOpan(true);
-          }} variant='secondary' text='Add content' startIcon={ < PlusIcon />} />
-          
-          <Button  onClick={ async ()=>{
-            const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`,{
-              share : true
-            } , {
-              headers : {
-                "Authorization" : localStorage.getItem("token")
-              }
-            });
-            const shareUrl =`${SITE_URL}/share/${response.data.hash}`;
-
-            alert(shareUrl);
-            
-
-          }}
-           variant='primary' text='Share brain' startIcon={ < ShareIcon />} />
-
+      <Sidebar setTypeFilter={setTypeFilter}/>
+    
+      <div className='bg-grayScreen min-h-screen p-4 ml-72 border-2'>
+        
+        <CreateContentModal open={modalOpen} onClose={()=>{ setModalOpan(false); }} />
+        
+        <div className="flex flex-wrap items-center gap-4 mb-6">
+          <Button onClick={() => { setModalOpan(true); }} variant='secondary' text='Add content' startIcon={ < PlusIcon />} />
+          {shareLink ? (
+            <>
+              <Button onClick={handleShareOff} variant='primary' text='Stop sharing' startIcon={<ShareIcon />} loading={shareLoading} />
+              <div className="flex items-center gap-2 bg-white px-2 py-1 rounded shadow border text-sm max-w-full overflow-x-auto">
+                <span>Share link:</span>
+                <a href={shareLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline truncate max-w-[200px]">{shareLink}</a>
+                <Button onClick={() => {navigator.clipboard.writeText(shareLink)}} variant='secondary' text='Copy' />
+              </div>
+            </>
+          ) : (
+            <Button onClick={handleShareOn} variant='primary' text='Share brain' startIcon={<ShareIcon />} loading={shareLoading} />
+          )}
         </div>
-        <div className='flex gap-5 flex-wrap '>
-
-          {contents.map(({title  , type , link  }) => <Card 
-              type={type}
-              link={link}
-              title={title}
-          />)}
-
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Search by title"
+          className="border rounded px-3 py-2 w-64 mb-4"
+        />
+        <div className='flex gap-5 flex-wrap'>
+          {loading && <div>Loading...</div>}
+          {error && <div className="text-red-500">{error}</div>}
+          {filteredCards.map(card => (
+            <Card
+              key={card._id}
+              id={card._id}
+              title={card.title}
+              type={card.type}
+              link={card.link}
+              text={card.text}
+              onDelete={deleteCard}
+            />
+          ))}
         </div>
       </div>
   </div>

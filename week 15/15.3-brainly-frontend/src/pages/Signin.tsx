@@ -28,15 +28,15 @@ export function Signin(){
     }
     
 
-    return <div className="h-screen w-screen bg-gray-200 flex justify-center items-center">
+    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
 
-        <div className="bg-white border min-w-48 p-8 rounded-xl ">
+        <div className="bg-white/80 backdrop-blur-md border border-gray-200 p-12 rounded-3xl shadow-2xl w-full max-w-md transition-all duration-300">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Signin</h2>
             <Input ref={usernameRef}  placeholder="Username" />
             <Input ref={passwordRef}  placeholder="Password" />
 
-            <div className="flex justify-center pt-4 ">
+            <div className="flex justify-center pt-6 ">
                 <Button onClick={signinFun}  variant="secondary" text="Signin" fullWidth={true}  loading={false}/>
-
             </div>
         </div>
 
