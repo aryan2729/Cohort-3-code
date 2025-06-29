@@ -16,8 +16,17 @@ wss.on("connection" , function(socket){
 
     console.log("user connected");
 
-    setInterval(() => {
-        socket.send("Current price of solana is "+Math.random());
-    }, 200);
+    // setInterval(() => {
+    //     socket.send("Current price of solana is "+Math.random());   //sending by the server in every 2sec
+    // }, 200);
+
+
+    socket.on("message" , (e)=> {       // client response come here when he wrote something (e) = variable response 
+        
+        if(e.toString()==="ping"){       // clinet ping send pong recieve 
+            socket.send("pong");
+        }
+    })
+    
 })
  // -> ws://localhost:8080
