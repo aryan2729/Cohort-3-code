@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+
+  id         Int      @default(autoincrement())  @id
+  email      String   @unique
+  firstName  String?    //can be null 
+  lastName   String?
+  password    String 
+
+  todos     Todo[]      // this not show on neondb database , imp for relationship
+}
+
+
+model Todo{
+
+  id            Int       @default(autoincrement())   @id
+  title         String 
+  done          Boolean    @default(false)
+  description   String?    
+  userId        Int
+
+  user          User     @relation(fields: [userId] , references: [id])   // relationship just like foregin key 
+}
