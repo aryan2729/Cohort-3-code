@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"   don't add this and also import {PrismaClient} from "@Prisma/client" in .ts file 
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+
+  id       Int    @default(autoincrement())   @id
+  username String 
+  password String 
+  age      Int 
+  city     String 
+
+  todos Todo[]      // this not show on sql database | imp for relationship 
+}
+
+
+model Todo {
+
+  id            Int   @default(autoincrement())     @id 
+  title         String 
+  description   String
+  done          Boolean
+  userId        Int
+
+  user          User  @relation( fields: [userId] , references: [id])    //just like foregin key thing relationship 
+}
