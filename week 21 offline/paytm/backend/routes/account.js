@@ -1,6 +1,6 @@
 import express from "express";
-import { authMiddleware} from "../middleware";
-import { Account} from "../db";
+import { authMiddleware} from "../middleware.js";
+import { Account} from "../db.js";
 import mongoose from "mongoose";
 
 const router = express.Router();
@@ -13,7 +13,7 @@ router.get("/balance" , authMiddleware , async ( req , res)=>{
     });
 
     res.json({
-        balace : account.balance
+        balance : account.balance
     })
 });
 
@@ -30,10 +30,19 @@ router.post("/transfer" , authMiddleware , async ( req , res )=> {
     // fetch acc. within transcation 
     const account = await Account.findOne({ userId : req.userId}).session(session); 
 
-    if(!account ){
+    if(!account || account.balance < amount ){
         await session.abortTransaction();
         return res.status(400).json({
-            message : "Invalid account"
+            message : "Insufficient balance"
+        });
+    }
+
+    const toAccount = await Account.findOne({ userId: to }).session(session);
+
+    if (!toAccount) {
+        await session.abortTransaction();
+        return res.status(400).json({
+            message: "Invalid account"
         });
     }
 
@@ -50,4 +59,4 @@ router.post("/transfer" , authMiddleware , async ( req , res )=> {
 });
 
 
-module.exports = router;  
+export default router;

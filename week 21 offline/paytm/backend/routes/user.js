@@ -2,39 +2,39 @@ import express from "express";
 import zod from "zod";
 import jwt from "jsonwebtoken";
 
-import { User } from "../db";
-import { JWT_SECRET } from "../config";
-import {authMiddleware} from "../middleware"
+import { Account, User } from "../db.js";
+import { JWT_SECRET } from "../config.js";
+import {authMiddleware} from "../middleware.js"
 
 
 const router = express.Router();
 
 
- 
-
-router.post("/signup", async (req , res) => {
-
-    const requireBody = zod.object({
+const requireBody = zod.object({
         username : zod.string(), 
         password : zod.string(),
         firstName : zod.string(),
         lastName : zod.string()
     })
 
+
+router.post("/signup", async (req , res) => {
+
+    
     const {success} = requireBody.safeParse(req.body);        // { } cuz it returns object 
 
     if(!success){
-        res.json({
+        return res.status(411).json({
             message : "Email already taken / Invalid inputs"
         })
     }
 
     const existingUser = await User.findOne({   // check if already username take 
-        username : body.username
+        username : req.body.username
     })
 
-    if(existingUser._id){
-        res.json({
+    if(existingUser){
+        return res.status(411).json({
             message : "Email already taken/Incorrect inputs"
         })
     }
@@ -46,10 +46,16 @@ router.post("/signup", async (req , res) => {
         lastName : req.body.lastName
     })
 
+    await Account.create({
+        userId : dbUser._id,
+        balance : 1 + Math.random() * 10000
+    })
+
 
     const token = jwt.sign({
 
         userId : dbUser._id
+
     }, JWT_SECRET);
 
 
@@ -60,13 +66,15 @@ router.post("/signup", async (req , res) => {
 
 })
 
-router.post("/signin", async (req, res) => {
-   
-    const signinBody = zod.object({
+
+const signinBody = zod.object({
     username: zod.string().email(),
 	password: zod.string()
 })
+
+router.post("/signin", async (req, res) => {
    
+  
     const { success } = signinBody.safeParse(req.body)
    
     if (!success) {
@@ -98,16 +106,16 @@ router.post("/signin", async (req, res) => {
 })
 
 
-
-
-router.put("/", authMiddleware, async (req, res) => {
-
-    const updateBody = zod.object({
+const updateBody = zod.object({
 	password: zod.string().optional(),
     firstName: zod.string().optional(),
     lastName: zod.string().optional(),
 })
 
+
+router.put("/", authMiddleware, async (req, res) => {
+
+   
     const { success } = updateBody.safeParse(req.body)
 
     if (!success) {
@@ -152,6 +160,6 @@ router.get("/bulk", async (req, res) => {
 })
 
 
-module.exports = router;
+export default router;
 
 

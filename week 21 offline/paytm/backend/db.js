@@ -1,5 +1,5 @@
 import mongoose, { model, mongo, Schema }  from "mongoose";
-import MONGO_URL from "./config";
+import { MONGO_URL } from "./config.js";
 
 mongoose.connect(MONGO_URL);
 

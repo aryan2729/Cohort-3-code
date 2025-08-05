@@ -1,6 +1,6 @@
 import express from "express";
-import userRouter from "./user";
-import accountRouter from "./account";
+import userRouter from "./user.js";
+import accountRouter from "./account.js";
 
 const router = express.Router();
 
@@ -9,4 +9,4 @@ router.use("/user", userRouter);
 router.use("/account" , accountRouter);
 
  
-module.exports = router;
+export default router;
