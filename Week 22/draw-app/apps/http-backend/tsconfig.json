@@ -1,0 +1,11 @@
+{
+    "extends" : "@repo/typescript-config/base.json"
+}
+
+
+
+// add in package.json
+// "dependencies": { 
+    
+//      "@repo/typescript-config" : "workspace: * "
+//   },

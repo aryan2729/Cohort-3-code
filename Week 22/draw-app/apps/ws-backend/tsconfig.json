@@ -1,0 +1,10 @@
+{
+    "extends" : "@repo/typescript-config/base.json"         // taking this from packages/typescript-config base 
+}
+
+
+// add in package.json
+// "dependencies": { 
+    
+//      "@repo/typescript-config" : "workspace: * "             // workspace cuz we're dealing with pnpm not npm 
+//   },
