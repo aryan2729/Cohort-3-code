@@ -1,0 +1,48 @@
+// pnpm install prisma -> npx prisma init ->  (run after env url added ) npx prisma migrate dev --name init_schema 
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"  // don't add this and also import {PrismaClient} from "@Prisma/client" in .ts file 
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// Defined here 
+model User {
+  id            String     @default(uuid())   @id
+  email         String     
+  password      String 
+  name          String 
+  photo         String?       // optional 
+
+  rooms         Room[]        // foregin key  relation 
+  chats         Chat[]        // " " " "
+
+
+}
+
+model Room{
+  id          Int        @id @default(autoincrement())
+  slug        String     @unique
+  createdAt   DateTime   @default(now())
+  userId     String
+
+  user       User      @relation(fields: [userId] , references: [id]) // Foregin key 
+  chat       Chat[]        // foregin key relation 
+}
+
+
+model Chat {
+  id        Int @id @default(autoincrement())
+  message   String 
+  roomId    Int
+  userId    String
+
+  room      Room    @relation(fields: [roomId] , references: [id])    // foregin key relation 
+  user      User    @relation(fields: [userId] , references: [id])    // foregin key relation 
+
+}
