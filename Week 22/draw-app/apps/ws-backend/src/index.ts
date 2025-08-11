@@ -15,7 +15,7 @@ wss.on("connection" , function connection(ws , request ){
 
     const queryParams = new URLSearchParams(url.split('?')[1] );    // means it spilt in array like ["ws://localhost8080" , "token = kdfdkjfkdf"]
     const token = queryParams.get('token') || "";
-    const decoded = jwt.verify(token , JWT_SECRET);
+    const decoded = jwt.verify(token , JWT_SECRET as string);
 
     if(!decoded || !(decoded as JwtPayload).userId){
         ws.close();

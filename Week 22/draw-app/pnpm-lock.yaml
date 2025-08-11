@@ -91,7 +91,7 @@ importers:
   apps/ws-backend:
     dependencies:
       '@repo/backend-common':
-        specifier: 'workspace:* '
+        specifier: workspace:*
         version: link:../../packages/backend-common
       '@repo/typescript-config':
         specifier: 'workspace: * '
@@ -113,6 +113,10 @@ importers:
         version: 8.18.3
 
   packages/backend-common:
+    dependencies:
+      dotenv:
+        specifier: ^17.2.1
+        version: 17.2.1
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*

@@ -10,8 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-
-    "@repo/backend-common": "workspace:* ",
+    "@repo/backend-common": "workspace:*",
     "@repo/typescript-config": "workspace: * ",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/ws": "^8.18.1",
