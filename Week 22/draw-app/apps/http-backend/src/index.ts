@@ -5,10 +5,11 @@ import { JWT_SECRET } from "@repo/backend-common/config";
 import { middleware } from "./middleware";
 import {CreateUserSchema , SigninSchema , RoomSchema} from "@repo/common/types"
 import { prismaClient } from "@repo/db/client";
+import cors from "cors";         
 
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 
 
 app.post("/signup" ,  async ( req , res)=>{
@@ -16,6 +17,7 @@ app.post("/signup" ,  async ( req , res)=>{
     const parsedData = CreateUserSchema.safeParse(req.body);
 
     if(!parsedData.success){
+        console.log(parsedData.error);
         res.json({
             message : "Incorrect inputs"
         })
@@ -38,7 +40,7 @@ app.post("/signup" ,  async ( req , res)=>{
         
     }catch (error) {
 
-        res.status(403).json({
+        res.status(411).json({
             message : "User already exists with this username"
         })   
     }
@@ -130,22 +132,62 @@ app.post("/room" ,  middleware , async ( req  , res) => {
 
 
 app.get("/chats/:roomId" , async (req , res )=> {
-    const roomId = Number(req.params.roomId);
     
+    try{
+
+    const roomId = Number(req.params.roomId);
+    console.log(req.params.roomId);
+
     const messages = await prismaClient.chat.findMany({
         where : {
             roomId : roomId
         },
         orderBy : {                         // desc order 
-            roomId : "desc"
+            id : "desc"
         }, 
-        take : 50                           // limit 50 messages 
-    })
+        take : 1000                           // limit 50 messages 
+        })
 
     res.json({
-        message : messages
+        messages : messages
     })
+
+    } catch (error) {
+        console.log(error);
+        res.json({
+            message : []
+        })
+    }
 })
 
+app.get("/room/:slug" , async( req , res ) => {
+
+
+    try {
+    
+    const slug = req.params.slug;
+    const room = await prismaClient.room.findFirst({
+        where : {
+            slug 
+        }
+    })
+
+
+    if (!room) {
+            return res.json({ room: null });
+    }
+
+    return res.json({ room });
+
+        
+    } catch (error) {
+
+        res.json({
+            message : "Room not found due to" + error
+        })
+        
+    }
+    
+})
 
 app.listen(3001);

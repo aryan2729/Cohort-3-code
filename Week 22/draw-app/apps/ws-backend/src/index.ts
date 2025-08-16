@@ -31,13 +31,13 @@ function checkUser( token : string ) : string | null {
 
 wss.on("connection" , function connection(ws , request ){
 
-    const url = request.url;        // ws://localhost:8080?token="fkdkdkj"
-    if(!url){
-        return ;
+    const url = request.url;
+    if (!url) {
+        return;
     }
 
-    const queryParams = new URLSearchParams(url.split('?')[1] );    // means it spilt in array like ["ws://localhost8080" , "token = kdfdkjfkdf"]
-    const token = queryParams.get('token') || "";
+    const queryParams = new URLSearchParams(url.split('?')[1]);
+const token = queryParams.get('token') || "";
     const userId = checkUser(token);
 
     if(userId == null){
