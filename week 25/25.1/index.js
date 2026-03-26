@@ -1,1 +1,1 @@
-console.log("Just checking CI/CD thing");
+console.log("Just checking CI/CD thing ");
